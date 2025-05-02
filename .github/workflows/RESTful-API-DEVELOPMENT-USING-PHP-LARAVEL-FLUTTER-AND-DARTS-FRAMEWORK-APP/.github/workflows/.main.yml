@@ -1,0 +1,210 @@
+NAME OF FILE: RESTful-API-DEVELOPMENT-USING-PHP-LARAVEL-FLUTTER-AND-DARTS-FRAMEWORK
+-APP/.git/workflows/.main.yml
+
+DEPLOYMENT IS AS FOLLOWS:
+A.Docker file For PHP LARAVEL FRAMEWORK
+B..Docker file For FLUTTER.
+C..Github Actions workflows pipeline for CI/CD integrations.
+D..DOCKER
+E.DEPLOMENT to different Clouds
+
+
+
+ DEPLOYMENT
+
+     A. PHP Laravel Framework
+
+Dockerfile for Laravel:
+
+```dockerfile
+FROM php:8.0-fpm
+
+# Set working directory
+WORKDIR /var/www
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    unzip \
+    git \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Copy existing application directory contents
+COPY . /var/www
+
+# Install Laravel dependencies
+RUN composer install
+
+# Expose port 9000 and start php-fpm server
+EXPOSE 9000
+CMD ["php-fpm"]
+```
+
+    B. Flutter
+
+ Dockerfile for Flutter:
+
+```dockerfile
+FROM cirrusci/flutter:stable
+
+# Set working directory
+WORKDIR /app
+
+# Copy the Flutter app
+COPY . .
+
+# Run Flutter build
+RUN flutter build apk --release
+
+# Expose port 8080
+EXPOSE 8080
+
+# Command to run the app
+CMD ["flutter", "run", "--release"]
+```
+
+B. GitHub Actions Workflow for CI/CD
+
+  GitHub Actions Workflow:
+
+```yaml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test
+
+    - name: Build project
+      run: npm run build
+
+    - name: Deploy to production
+      run: echo "Deploying to production..."
+```
+
+     C. Docker
+
+  Dockerfile for Node.js:
+
+```dockerfile
+FROM node:14
+
+ Create app directory
+WORKDIR /usr/src/app
+
+ Install app dependencies
+COPY package*.json ./
+RUN npm install
+
+ Bundle app source
+COPY . .
+
+ Expose the port the app runs on
+EXPOSE 8080
+
+ Define the command to run the app
+CMD ["node", "src/index.js"]
+```
+
+D. Deployment to Different Clouds
+
+**AWS (Elastic Beanstalk):**
+
+```bash
+# Initialize Elastic Beanstalk
+eb init -p node.js my-app
+
+# Create an environment and deploy the app
+eb create my-env
+eb deploy
+```
+
+**GCP (Google App Engine):**
+
+```yaml
+# app.yaml
+runtime: nodejs14
+
+# Deploy command
+gcloud app deploy
+```
+
+**Azure (App Service):**
+
+```bash
+# Login to Azure
+az login
+
+# Create a resource group
+az group create --name myResourceGroup --location "East US"
+
+# Create an App Service plan
+az appservice plan create --name myAppServicePlan --resource-group myResourceGroup --sku FREE
+
+# Create a web app
+az webapp create --resource-group myResourceGroup --plan myAppServicePlan --name myUniqueAppName --runtime "NODE|14-lts"
+
+# Deploy the app
+az webapp up --name myUniqueAppName
+```
+
+**Heroku:**
+
+```bash
+# Login to Heroku
+heroku login
+
+# Create a new app
+heroku create my-app
+
+# Deploy the app
+git push heroku main
+```
+
+**Digital Ocean:**
+
+```bash
+# Using doctl (DigitalOcean CLI)
+doctl apps create --spec app-spec.yaml
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
