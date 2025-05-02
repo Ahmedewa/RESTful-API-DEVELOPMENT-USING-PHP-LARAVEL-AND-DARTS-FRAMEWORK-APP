@@ -1,0 +1,23 @@
+The funding model configuration
+for 'RESTful-API-DEVELOPMENT-USING-PHP-LARAVEL-FLUTTER-AND-DARTS-FRAMEWORK- project.
+
+
+
+github: [meta-llama, facebook]
+patreon: meta-ai
+open_collective: meta-ai-collective
+ko_fi: meta-ai- coffee
+tidelift: npm/meta-llama
+community_bridge: meta-ai-project
+liberapay: meta-ai-donate
+issuehunt: meta-ai-issues
+lfx_crowdfunding: meta-ai-fund
+polar: meta-ai-polar
+buy_me_a_coffee: meta-ai-coffee
+thanks_dev: meta-ai-thanks
+custom: ['https://meta-ai.com/donate', 'https://meta-ai.org/support']
+
+
+Make sure to replace these examples with your actual funding information. If you don't have a particular funding platform, you can leave the corresponding field blank or remove it altogether.
+
+Also, ensure that you've correctly formatted the configuration according to the specifications. Some platforms may require specific formatting or have limitations on the number of usernames or URLs you can provide.
