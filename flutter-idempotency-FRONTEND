@@ -1,0 +1,69 @@
+
+
+
+3. FLUTTER FRONTEND: GENERATING AND USING IDEMPOTENCY KEYS
+
+- Generate a Unique Idempotency Key
+Flutter doesn’t have a built-in way to generate unique keys, but we can use 
+the 'uuid package' 
+
+Add uuid to pubspec.yaml
+yaml
+Copy
+dependencies:
+  uuid: ^3.0.6
+Generate the Key
+dart
+Copy
+import 'package:uuid/uuid.dart';
+
+class IdempotencyUtils {
+  static final _uuid = Uuid();
+
+  static String generateKey() {
+    return _uuid.v4(); // Generates a unique UUID
+  }
+}
+3b) import 'package:flutter/material.dart';
+import 'api_service.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  final ApiService apiService = ApiService();
+
+  void createResource() async {
+    final data = {'name': 'Sample Resource', 'type': 'example'};
+    final response = await apiService.createResource(data);
+
+    if (response.statusCode == 201) {
+      print('Resource created successfully!');
+    } else {
+      print('Error: ${response.body}');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Idempotency Example')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: createResource,
+          child: Text('Create Resource'),
+        ),
+      ),
+    );
+  }
+}
