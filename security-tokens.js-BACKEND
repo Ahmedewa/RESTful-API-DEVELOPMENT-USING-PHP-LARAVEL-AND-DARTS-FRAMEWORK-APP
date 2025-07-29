@@ -1,0 +1,41 @@
+SECURITY:
+[Tokens ,user validation, & Secerets Managers)
+
+**A. Secure Tokens**
+Secure storage of sensitive data like tokens is critical for protecting user sessions and API communication.
+
+**1.1 Why Secure Tokens?**
+- Prevent unauthorized access in case of a data breach.
+- Mitigate the risks of token theft from storage or memory leaks.
+
+**1.2 Implementation in Flutter**
+Use **flutter_secure_storage** to store tokens securely:
+1. **Install Package**:
+   Add `flutter_secure_storage` to your `pubspec.yaml`:
+   ```yaml
+   dependencies:
+     flutter_secure_storage: ^8.0.0
+   ```
+2. **Store and Retrieve Tokens**:
+   ```dart
+   import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+   class TokenStorage {
+     final _storage = FlutterSecureStorage();
+
+     Future<void> saveToken(String token) async {
+       await _storage.write(key: 'auth_token', value: token);
+     }
+
+     Future<String?> getToken() async {
+       return await _storage.read(key: 'auth_token');
+     }
+
+     Future<void> deleteToken() async {
+       await _storage.delete(key: 'auth_token');
+     }
+   }
+   ```
+
+
+
