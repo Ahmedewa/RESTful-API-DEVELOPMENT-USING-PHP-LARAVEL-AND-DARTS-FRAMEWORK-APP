@@ -1,0 +1,30 @@
+INPUT-VALIDATION-USERS
+
+**B. Validation**
+**Why Validate Inputs?**
+- Prevent **SQL Injection**: Malicious queries that can manipulate your database.
+- Prevent **Cross-Site Scripting (XSS)**: Injections of malicious scripts in user inputs.
+
+**Laravel Example for Input Validation**
+
+```php
+public function store(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|min:8',
+    ]);
+
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
+
+    return response()->json($user, 201);
+}
+```
+
+---
+
