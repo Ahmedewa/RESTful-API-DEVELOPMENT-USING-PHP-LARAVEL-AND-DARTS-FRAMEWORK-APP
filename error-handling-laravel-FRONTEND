@@ -1,0 +1,37 @@
+ERROR HANDLING IN LARAVEL
+
+Error Handling in Laravel**
+
+**Problem**: Inconsistent error responses from the backend.
+
+### **Solution**: Create a global exception handler.
+
+1. Update `App\Exceptions\Handler.php`:
+   ```php
+   public function render($request, Throwable $exception)
+   {
+       if ($exception instanceof ModelNotFoundException) {
+           return response()->json(['error' => 'Resource not found'], 404);
+       }
+
+       if ($exception instanceof AuthenticationException) {
+           return response()->json(['error' => 'Unauthenticated'], 401);
+       }
+
+       return response()->json([
+           'error' => 'Internal Server Error',
+           'message' => $exception->getMessage(),
+       ], 500);
+   }
+   ```
+
+2. Use consistent JSON responses:
+   ```php
+   return response()->json([
+       'status' => 'error',
+       'message' => 'Invalid credentials',
+   ], 401);
+   ```
+
+---
+
