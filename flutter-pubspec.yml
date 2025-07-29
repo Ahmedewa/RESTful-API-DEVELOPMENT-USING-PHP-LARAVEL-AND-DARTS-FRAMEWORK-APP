@@ -1,0 +1,16 @@
+Flutter (Frontend)
+Step 1: Define Dependencies in pubspec.yaml
+
+
+name: my_flutter_app
+description: A sample Flutter app
+version: 1.0.0+1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
