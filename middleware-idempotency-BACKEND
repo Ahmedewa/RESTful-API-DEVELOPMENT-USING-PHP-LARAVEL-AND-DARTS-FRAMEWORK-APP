@@ -1,0 +1,54 @@
+MIDDLEWARE TO HANDLE IDEMPOTENCY
+Create a middleware:
+
+bash
+Copy
+php artisan make:middleware IdempotencyMiddleware
+Middleware code:
+
+php
+Copy
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Support\Facades\Cache;
+
+class IdempotencyMiddleware
+{
+    public function handle($request, Closure $next)
+    {
+        $idempotencyKey = $request->header('Idempotency-Key');
+
+        if (!$idempotencyKey) {
+            return response()->json(['error' => 'Idempotency-Key header is required'], 400);
+        }
+
+        // Check if the key already exists
+        $cachedResponse = Cache::get($idempotencyKey);
+
+        if ($cachedResponse) {
+            return response()->json(json_decode($cachedResponse, true));
+        }
+
+        // Process the request
+        $response = $next($request);
+
+        // Cache the response
+        Cache::put($idempotencyKey, $response->getContent(), now()->addMinutes(10));
+
+        return $response;
+    }
+}
+Step 3: Apply the Middleware to Routes
+In app/Http/Kernel.php, register the middleware:
+
+php
+Copy
+protected $routeMiddleware = [
+    'idempotency' => \App\Http\Middleware\IdempotencyMiddleware::class,
+];
+Apply it to specific routes:
+
+php
+Copy
+Route::post('/create-resource', [ResourceController::class, 'store'])->middleware('idempotency');
