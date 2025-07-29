@@ -1,0 +1,18 @@
+
+
+Backend Implementation (Laravel)
+Step 1: Database Table for Idempotency Keys
+Create a table to store idempotency keys and their associated responses:
+
+bash
+Copy
+php artisan make:migration create_idempotency_keys_table
+Migration file:
+
+php
+Copy
+Schema::create('idempotency_keys', function (Blueprint $table) {
+    $table->string('key')->unique();
+    $table->json('response');
+    $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+});
