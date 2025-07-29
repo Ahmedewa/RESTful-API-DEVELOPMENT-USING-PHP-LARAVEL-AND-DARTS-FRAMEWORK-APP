@@ -1,0 +1,14 @@
+Laravel (Backend)
+Step 1: Define Dependencies in composer.json
+
+{
+  "name": "my-laravel-app",
+  "require": {
+    "php": "^8.0",
+    "laravel/framework": "^10.0"
+  },
+  "scripts": {
+    "start": "php artisan serve",
+    "test": "php artisan test"
+  }
+}
