@@ -1,0 +1,39 @@
+CROSS-PLATFORM-COMPATIBILITY
+
+**Cross-Platform Compatibility**
+
+**Flutter Practices for Cross-Platform Compatibility**
+1. **Use `MediaQuery` for Screen Scaling**:
+   Adapt UI elements to different screen sizes:
+   ```dart
+   double screenWidth = MediaQuery.of(context).size.width;
+   double screenHeight = MediaQuery.of(context).size.height;
+
+   Container(
+     width: screenWidth * 0.8,
+     height: screenHeight * 0.1,
+     child: Text('Responsive UI'),
+   );
+   ```
+
+2. **Test on Both iOS and Android**:
+   - Use Android Emulator and iOS Simulator:
+     ```bash
+     flutter emulators --launch emulator_id
+     flutter run
+     ```
+
+3. **Handle Platform-Specific Code**:
+   - Use `Platform` class in Dart:
+     ```dart
+     import 'dart:io';
+
+     if (Platform.isAndroid) {
+       print("Running on Android");
+     } else if (Platform.isIOS) {
+       print("Running on iOS");
+     }
+     ```
+
+---
+
